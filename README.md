@@ -1,9 +1,9 @@
 # LeetCode
 
-This repository contains my solutions to problems on [LeetCode](https://leetcode.com/), a platform for practicing and improving coding skills .
+This repository contains my solutions to problems on [LeetCode](https://leetcode.com/), a platform for practicing and improving coding skills.
 
-I am using this repository to track my progress and share my solutions with others .
-My goal is to become proficient in a variety of programming languages and problem-solving techniques .
+I am using this repository to track my progress and share my solutions with others.
+My goal is to become proficient in a variety of programming languages and problem-solving techniques.
 
 ## Contents
 
