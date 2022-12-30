@@ -10,4 +10,5 @@ Finally, the method iterates through t1 again, adding the value of each element 
 The method then returns a subvector of t1 containing the elements from the first element to the second to last element.
 
 ## Requirements
+
 The code is written in C++ and has no external dependencies. It should be compatible with any C++ compiler.
