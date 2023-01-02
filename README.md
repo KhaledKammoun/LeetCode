@@ -42,7 +42,7 @@ I have not solved any hard problems yet .
 
 ## Contribute
 
-If you have any suggestions or feedback, or if you want to contribute to this repository, please feel free to open an issue or pull request. I am always open to learning from others and improving my skills .
+If you have any suggestions or feedback, or if you want to contribute to this repository, please feel free to open an issue or pull request. I am always open to learning from others and improving my skills.
 
 ## Account
 
