@@ -4,8 +4,8 @@ public:
         vector<vector<int>> v ;
         for (int i = 1 ; i<=(1<<n) ;i++){
             bitset<20>b(i) ;
-            int sum = b.count() ;
-            if (sum==k){
+            int sum_1 = b.count() ;
+            if (sum_1==k){
                 vector<int> v1 ;
                 string s= b.to_string();
                 for(int j = 20-n ; j<20 ;j++){
