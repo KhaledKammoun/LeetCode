@@ -53,4 +53,5 @@ If you have any suggestions or feedback, or if you want to contribute to this re
 
 ## Account
 
-You can find my LeetCode account [here](https://leetcode.com/khaledKammoun) .
+You can find my LeetCode account 
+<a href="https://leetcode.com/khaledKammoun" target="_blank">here</a>
