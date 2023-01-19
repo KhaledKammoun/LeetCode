@@ -37,11 +37,11 @@ This file contains a list of the problems I have solved on LeetCode, organized b
 ](https://leetcode.com/problems/counting-bits/) - [Summary Ranges
 ](https://leetcode.com/problems/summary-ranges/) - [Remove Duplicates from Sorted Array
 ](https://leetcode.com/problems/remove-duplicates-from-sorted-array/) - [Sqrt(x)](https://leetcode.com/problems/sqrtx/) - [Add Binary](https://leetcode.com/problems/add-binary/) - [Number of 1 Bits
-](https://leetcode.com/problems/number-of-1-bits/) - [Happy Number](https://leetcode.com/problems/happy-number/)
+](https://leetcode.com/problems/number-of-1-bits/) - [Happy Number](https://leetcode.com/problems/happy-number/) - [Robot Return to Origin](https://leetcode.com/problems/robot-return-to-origin/) - [Binary Number with Alternating Bits](https://leetcode.com/problems/binary-number-with-alternating-bits/) - [Count Binary Substrings](https://leetcode.com/problems/count-binary-substrings/) - [Binary Gap](https://leetcode.com/problems/binary-gap/) - [Difference Between Element Sum and Digit Sum of an Array](https://leetcode.com/problems/difference-between-element-sum-and-digit-sum-of-an-array/) - [1-bit and 2-bit Characters](https://leetcode.com/problems/1-bit-and-2-bit-characters/) - [To Lower Case](https://leetcode.com/problems/to-lower-case/)
 
 ### Medium
 
-- [Corporate Flight Bookings](https://leetcode.com/problems/corporate-flight-bookings/)
+- [Corporate Flight Bookings](https://leetcode.com/problems/corporate-flight-bookings/) - [Contiguous Array](https://leetcode.com/problems/contiguous-array/) - [Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/) - [Subsets](https://leetcode.com/problems/subsets/) - [Combinations](https://leetcode.com/problems/combinations/)
 
 ### Hard
 
