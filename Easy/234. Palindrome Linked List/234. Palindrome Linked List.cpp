@@ -13,10 +13,12 @@ public:
     bool isPalindrome(ListNode* head) {
         ListNode* slow = head ;
         ListNode* fast = head ;
+        //find middle pointer using slow and fast pointers (slow)
         while (fast!=nullptr && fast->next!=nullptr){
             fast = fast->next->next ;
             slow = slow->next ;
         }
+        //reverse seconde half
         ListNode* prev = nullptr ;
         while (slow!=nullptr){
             ListNode* tmp = slow->next ;
@@ -24,6 +26,7 @@ public:
             prev = slow ;
             slow = tmp ;
         }
+        //check if le LinkedList is palindrome or not
         ListNode* left = head ;
         ListNode* right = prev;
         while (right!=nullptr){
