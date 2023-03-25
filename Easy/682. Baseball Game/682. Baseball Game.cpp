@@ -2,7 +2,7 @@ class Solution {
 public:
     int calPoints(vector<string>& ops) {
         stack<int>s ;
-        int sum = 0 ;
+        int som = 0 ;
         for (int i = 0 ; i<ops.size() ; i++){
             if (ops[i]=="C")
                 s.pop() ;
@@ -19,9 +19,9 @@ public:
                 s.push(stoi(ops[i])) ;
         }
         while (!s.empty()){
-            sum+=s.top() ;
+            som+=s.top() ;
             s.pop() ;
         }
-        return sum ;
+        return som ;
     }
 };
