@@ -45,7 +45,7 @@ This file contains a list of the problems I have solved on LeetCode, organized b
 
 ### Hard
 
-I have not solved any hard problems yet .
+- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)
 
 ## Contribute
 
