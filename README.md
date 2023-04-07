@@ -45,7 +45,7 @@ This file contains a list of the problems I have solved on LeetCode, organized b
 
 ### Hard
 
-- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)
+- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) - [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 
 ## Contribute
 
