@@ -5,21 +5,19 @@ public:
         vector<int>v ;
         if (k>size)
             return v ;
-        multiset<int>s ; 
+        deque<int>q ;
         for (int r = 0 ;r<size ; r++){
-            if (r<k)
-                s.insert(nums[r]) ;
-            else {
-                v.push_back(*s.rbegin()) ;
-                auto it = s.find(nums[l]);
-                if (it != s.end()) {
-                    s.erase(it);
-                }
-                s.insert(nums[r]) ;
-                l++;
+            while (!q.empty() && (q.back()<nums[r])){
+                q.pop_back() ;
+            }
+            q.push_back(nums[r]) ;
+            if (r>=k-1){
+                v.push_back(q.front()) ;
+                if(q.front()==nums[l])
+                    q.pop_front() ;
+                l++ ;
             }
         }
-        v.push_back(*s.rbegin()) ;
         return v ;
     }
 };
