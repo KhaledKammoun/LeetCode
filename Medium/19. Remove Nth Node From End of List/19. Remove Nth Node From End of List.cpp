@@ -17,8 +17,8 @@ public:
         }
         ListNode* temp = slow->next ;
         slow->next = slow->next->next ;
-        delete temp ;
         head = dummy->next ;
+        delete temp ;
         delete dummy ;
         return head ;
     }
