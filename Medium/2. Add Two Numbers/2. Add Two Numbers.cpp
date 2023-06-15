@@ -17,13 +17,21 @@ public:
         while (l1!=nullptr || l2!=nullptr || rest!=0){
             int x = (l1 != nullptr) ? l1->val : 0;
             int y = (l2 != nullptr) ? l2->val : 0;
-            ListNode* node = new ListNode((x+y+rest)%10) ;
+            sum->next = new ListNode((x+y+rest)%10) ;
             rest = (x + y +rest)/ 10;
-            sum->next = node ;
             sum = sum->next ;
-            
-            if (l1 != nullptr) l1 = l1->next;
-            if (l2 != nullptr) l2 = l2->next;
+
+            if (l1 != nullptr){
+                ListNode*n = l1 ;
+                l1 = l1->next;
+                delete n ;
+            }
+            if (l2 != nullptr){
+                ListNode*n = l2 ;
+                l2 = l2->next;
+                delete n ;
+            }
+
         }
 
         return dummy->next ;
