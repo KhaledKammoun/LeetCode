@@ -45,7 +45,7 @@ This file contains a list of the problems I have solved on LeetCode, organized b
 
 ### Hard
 
-- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) - [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) - [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) - [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) - [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) - [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) - [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) - [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) - [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) - [Reverse Nodes in k-Group](https://leetcode.com/problems/reverse-nodes-in-k-group/)
 
 ## Contribute
 
