@@ -23,6 +23,21 @@ public:
         int lA = 0, rA = n - 1;
         while (lA <= rA) {
             int m = (lA + rA) / 2;
+            
+            // Find A[m] position in B
+            int m2 = binarySearch(B, A[m]);
+            int l = m + m2, r = (n - m - 1) + (n1 - m2);
+            if (abs(l - r) == 1 && (n1 + n) % 2 == 0) {
+                return (l > r) ? (A[m] + B[m2 - 1]) / 2.0 : (A[m] + B[m2]) / 2.0;
+            } else if (((n1 + n) % 2 != 0)) {
+                double f = B[m2] ;
+                return f;
+            }
+            if (l <= r)
+                lA = m + 1;
+            else
+                rA = m - 1;
+            m = (lA + rA)/2 ;
             if (m < 0 || m >= n || n == 0) {
                 swap(A, B);
                 lA = 0;
@@ -30,18 +45,6 @@ public:
                 rA = n - 1;
                 n1 = B.size();
             }
-            // Find A[m] position in B
-            int m2 = binarySearch(B, A[m]);
-            int l = m + m2, r = (n - m - 1) + (m - m2 - 1);
-            if ((m + n) % 2 == 0 && abs(l - r) == 1) {
-                return (l > r) ? (A[m] + B[m2 - 1]) / 2.0 : (A[m] + B[m2]) / 2.0;
-            } else if ((m + n) % 2 != 0 && l - r == 0 && l == (m + n) / 2) {
-                return B[m];
-            }
-            if (l < r)
-                lA = m + 1;
-            else
-                rA = m - 1;
         }
         return 0.0;
     }
