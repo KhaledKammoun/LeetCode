@@ -1,51 +1,33 @@
 class Solution {
 public:
-    static int binarySearch(const vector<int>& arr, int target) {
-        int low = 0;
-        int high = arr.size() - 1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            if (arr[mid] == target) {
-                return mid;  // Found the target
-            } else if (arr[mid] < target) {
-                low = mid + 1;  // Target is in the right half
-            } else {
-                high = mid - 1;  // Target is in the left half
-            }
-        }
-        return (low > high) ? low : high;
-    }
-
     double findMedianSortedArrays(vector<int>& A, vector<int>& B) {
-        int n = A.size(), n1 = B.size();
-        int lA = 0, rA = n - 1;
-        while (lA <= rA) {
-            int m = (lA + rA) / 2;
-            
-            // Find A[m] position in B
-            int m2 = binarySearch(B, A[m]);
-            int l = m + m2, r = (n - m - 1) + (n1 - m2);
-            if (abs(l - r) == 1 && (n1 + n) % 2 == 0) {
-                return (l > r) ? (A[m] + B[m2 - 1]) / 2.0 : (A[m] + B[m2]) / 2.0;
-            } else if (((n1 + n) % 2 != 0)) {
-                double f = B[m2] ;
-                return f;
+        int n = A.size(), m = B.size() ;
+        int lA = 0, rA = n-1, lB = 0, rB = m-1 ;
+        while (lA <= rA){
+            int i = (lA + rA)/2, j = (lB + rB)/2 ;
+            if (i==0 || i==n-1 || (A[i+1]>=B[j] && B[j+1] > A[i])){
+                if ((n+m)%2!=0)
+                    return max(A[i],B[j]) ;
+                else{
+                    if (i<0 || i>=n){
+                        return B[j]+B[j-1] ;
+                    }
+                    else if (j<0 || j>=m){
+                        return A[i]+A[i-1] ;
+                    }
+                    else{
+                        return (A[i]+B[j])/2 ;
+                    }
+                }
+            }else if (A[i+1]<B[j]){
+                rB = j - 1 ;
+                lA = i + 1 ;
             }
-            if (l <= r)
-                lA = m + 1;
-            else
-                rA = m - 1;
-            m = (lA + rA)/2 ;
-            if (m < 0 || m >= n || n == 0) {
-                swap(A, B);
-                lA = 0;
-                n = A.size();
-                rA = n - 1;
-                n1 = B.size();
+            else{
+                lB = j + 1 ;
+                rA = i - 1 ;
             }
         }
-        return 0.0;
+        return 0.0 ;
     }
 };
