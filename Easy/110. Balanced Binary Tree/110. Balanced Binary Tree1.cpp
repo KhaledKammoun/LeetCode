@@ -20,7 +20,6 @@ public:
         if (abs(left - right)>1)
             return -1 ;
         return 1 + max(left, right) ;
-
     }
     bool isBalanced(TreeNode* root){
         return (checkHight(root) != -1) ;
