@@ -11,26 +11,22 @@
  */
 class Solution {
 public:
-    void notgoodNodes(TreeNode* root, int &len, int &notgood, int &max_val) {
+    void notgoodNodes(TreeNode* root, int &good,  int max_val,bool test) {
         if (!root)
             return;
-        
-        if (root->left && max_val > root->left->val)
-            notgood++;
-        if (root->right && max_val > root->right->val)
-            notgood++;
-        len++; 
-        max_val = max(max_val, root->val) ;
-        notgoodNodes(root->left, len, notgood, max_val);
-        notgoodNodes(root->right, len, notgood, max_val);
+        else if (root->val>=max_val){
+            good++ ;
+            max_val = max(max_val, root->val) ;
+        }
+        notgoodNodes(root->left, good, max_val,test);
+        notgoodNodes(root->right, good, max_val, test);
     }
 
     int goodNodes(TreeNode* root) {
         if (!root)
             return 0;
-
-        int len = 0, notgood = 0;
-        notgoodNodes(root, len, notgood,root->val);
-        return len - notgood;
+        int good = 0 ;
+        notgoodNodes(root, good ,root->val, true);
+        return good;
     }
 };
