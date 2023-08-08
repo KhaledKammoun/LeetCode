@@ -12,13 +12,15 @@
 class Solution {
 public:
     void findKth(TreeNode* root, int &k,int &kthVal){
-        if (!root)
+        if (k<=0 || !root)
             return ;
         findKth(root->left,k,kthVal) ;
         k-- ;
-        if (k==0)
-            kthVal = root->val ;
-       findKth(root->right,k,kthVal) ;
+        if (k==0){
+            kthVal = root->val ; 
+            return ;
+        }
+        findKth(root->right,k,kthVal) ;   
     }
     int kthSmallest(TreeNode* root, int &k) {
         int kthVal = -1 ;
