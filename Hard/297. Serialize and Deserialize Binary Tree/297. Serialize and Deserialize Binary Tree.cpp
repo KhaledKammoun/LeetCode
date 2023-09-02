@@ -9,31 +9,74 @@
  */
 class Codec {
 public:
-    void serialize_(TreeNode* root, int &len,string &s){
+    void serialize_preorder(TreeNode* root ,string &s){
         if(!root){
             return  ;
         }
-        len++ ;
         s = s + "#" + to_string(root->val) ;
-        serialize_(root->left,len,s) ;
-        serialize_(root->right,len,s) ;
+        serialize_preorder(root->left, s) ;
+        serialize_preorder(root->right, s) ;
+        
+    }
+    void serialize_inorder(TreeNode* root ,string &s){
+        if(!root){
+            return  ;
+        }
+        serialize_inorder(root->left, s) ;
+        s = s + "#" + to_string(root->val) ;
+        serialize_inorder(root->right, s) ;
         
     }
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
         if (!root)
             return "" ;
-        
-        int l = 0,r = 0 ;
-        string s_left = "", s_right = "" ;
-        serialize_(root->left, l, s_left) ;
-        serialize_(root->right, r, s_right) ;
-        return "#" + to_string(l) + "#" + to_string(r) + "#" + to_string(root->val) + s_left + s_right ;
+        string preorder  = "" ;
+        string inorder = "" ;
+        serialize_preorder(root,preorder) ;
+        serialize_inorder(root,inorder) ;
+        return preorder + "&" + inorder ;
     }
+    vector<int> split(string s, char del ='#')
+    {
+        vector<int> numbers ;
+        std::stringstream ss(s);
+        std::string token;
+    
+        // Iterate through the stringstream and extract integers
+        while (std::getline(ss, token, del)) {
+            if (!token.empty()) {
+                int number;
+                std::istringstream(token) >> number;
+                numbers.push_back(number);
+            }
+        }
+        return numbers ;
+    }
+   
+    TreeNode* BuildNewTree(vector<int> &preorder, vector<int> &inorder, int preStart, int preEnd, int inStart, int inEnd){
+        if (preStart > preEnd || inStart > inEnd)
+            return nullptr ;
+        TreeNode* root = new TreeNode(preorder[preStart]);
+        int mid = inStart;
+            while (inorder[mid] != preorder[preStart])
+                mid++;
 
-    // Decodes your encoded data to tree.
+        int leftSubtreeSize = mid - inStart;
+
+    root->left = BuildNewTree(preorder, inorder, preStart + 1, preStart + leftSubtreeSize, inStart, mid - 1);
+    root->right = BuildNewTree(preorder, inorder, preStart + leftSubtreeSize + 1, preEnd, mid + 1, inEnd);
+        return root ;
+    }
     TreeNode* deserialize(string data) {
-        
+        /*Convert The data string to a preorder and inorder array*/
+        vector<int>preorder,inorder ;
+        size_t pos = data.find('&');
+        preorder = split(data.substr(0, pos)) ;
+        inorder = split(data.substr(pos+1)) ;
+        TreeNode* root = nullptr ;
+        int n = preorder.size() ;
+        return BuildNewTree(preorder, inorder, 0, n-1, 0, n-1) ;
     }
 };
 
