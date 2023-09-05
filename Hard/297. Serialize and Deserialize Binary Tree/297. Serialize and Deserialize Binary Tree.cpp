@@ -9,11 +9,15 @@
  */
 class Codec {
 public:
+    unordered_map<TreeNode*,int> m ;
+    unordered_map<int,int> t  ;
     void serialize_preorder(TreeNode* root ,string &s){
         if(!root){
             return  ;
         }
-        s = s + "#" + to_string(root->val) ;
+        m[root] = t[root->val] ;
+        s = s + "#" + to_string(root->val) + "," + to_string(t[root->val]);
+        t[root->val]++ ;
         serialize_preorder(root->left, s) ;
         serialize_preorder(root->right, s) ;
         
@@ -23,7 +27,7 @@ public:
             return  ;
         }
         serialize_inorder(root->left, s) ;
-        s = s + "#" + to_string(root->val) ;
+        s = s + "#" + to_string(root->val) + "," + to_string(m[root]);
         serialize_inorder(root->right, s) ;
         
     }
@@ -37,30 +41,41 @@ public:
         serialize_inorder(root,inorder) ;
         return preorder + "&" + inorder ;
     }
-    vector<int> split(string s, char del ='#')
-    {
-        vector<int> numbers ;
-        std::stringstream ss(s);
+    std::vector<std::pair<int, int>> split(const std::string& s, char del = '#') {
+        std::vector<std::pair<int, int>> numbers;
+        std::istringstream ss(s);
         std::string token;
-    
-        // Iterate through the stringstream and extract integers
-        while (std::getline(ss, token, del)) {
+
+        // Split the input string by '#' to get pairs
+        while (std::getline(ss, token, '#')) {
             if (!token.empty()) {
-                int number;
-                std::istringstream(token) >> number;
-                numbers.push_back(number);
+                std::istringstream pair_ss(token);
+                std::string pair_token;
+                std::vector<int> pair_values;
+
+                // Split each pair by ',' to get the values
+                while (std::getline(pair_ss, pair_token, ',')) {
+                    int number;
+                    std::istringstream(pair_token) >> number;
+                    pair_values.push_back(number);
+                }
+
+                if (pair_values.size() == 2) {
+                    numbers.push_back(std::make_pair(pair_values[0], pair_values[1]));
+                }
             }
         }
-        return numbers ;
+
+        return numbers;
     }
    
-    TreeNode* BuildNewTree(vector<int> &preorder, vector<int> &inorder, int preStart, int preEnd, int inStart, int inEnd){
+    TreeNode* BuildNewTree(vector<pair<int,int>> &preorder, vector<pair<int,int>> &inorder, int preStart, int preEnd, int inStart, int inEnd){
         if (preStart > preEnd || inStart > inEnd)
             return nullptr ;
-        TreeNode* root = new TreeNode(preorder[preStart]);
+        TreeNode* root = new TreeNode(preorder[preStart].first);
         int mid = inStart;
-            while (inorder[mid] != preorder[preStart])
-                mid++;
+        while (inorder[mid].second != preorder[preStart].second || inorder[mid].first != preorder[preStart].first)
+            mid++;
 
         int leftSubtreeSize = mid - inStart;
 
@@ -70,12 +85,14 @@ public:
     }
     TreeNode* deserialize(string data) {
         /*Convert The data string to a preorder and inorder array*/
-        vector<int>preorder,inorder ;
+        vector<pair<int,int>>preorder,inorder ;
         size_t pos = data.find('&');
         preorder = split(data.substr(0, pos)) ;
         inorder = split(data.substr(pos+1)) ;
-        TreeNode* root = nullptr ;
         int n = preorder.size() ;
+        
+        TreeNode* root = nullptr ;
+        
         return BuildNewTree(preorder, inorder, 0, n-1, 0, n-1) ;
     }
 };
