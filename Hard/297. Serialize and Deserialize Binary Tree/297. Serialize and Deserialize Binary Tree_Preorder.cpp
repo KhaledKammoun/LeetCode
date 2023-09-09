@@ -9,57 +9,45 @@
  */
 class Codec {
 public:
-    void serialize_preorder(TreeNode* root ,string &s){
-        if(!root){
-            s = s + "#n" ;
-            return  ;
-        }
-        s = s + "#" + to_string(root->val) ;
-        serialize_preorder(root->left, s) ;
-        serialize_preorder(root->right, s) ;
-        
-    }
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        string s = "" ;
-        serialize_preorder(root,s) ;
-        return s ;
+        ostringstream out;
+        serialize_(root, out);
+        return out.str();
     }
+
+    // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        std::stringstream ss(data);
-        std::string token;
-        getline(ss, token, '#');
-        getline(ss, token, '#');
-        if (token=="n")
-            return nullptr; 
-        int number;
-        std::istringstream(token) >> number;
-        stack<TreeNode*>s ;
-        TreeNode* root = new TreeNode(number) ;
-        s.push(root) ;
-        string prev = token ;
-        while (std::getline(ss, token, '#')) {
-            TreeNode* node ;
-            if (token!="n"){
-                std::istringstream(token) >> number;
-                node = new TreeNode(number) ;
-            }
-            else{
-                node = nullptr ;
-            }
-            if (prev=="n"){
-                s.top()->right = node ;
-                s.pop() ;
-            }
-            else
-                s.top()->left = node ;
-            if (node)
-                s.push(node) ;
-            prev = token ;
+        istringstream in(data);
+        return deserialize_(in);
+    }
+
+private:
+    // Serialize the tree using preorder traversal
+    void serialize_(TreeNode* root, ostringstream& out) {
+        if (!root) {
+            out << "# ";
+            return;
         }
-        return root ;
+
+        out << to_string(root->val) << ' ';
+        serialize_(root->left, out);
+        serialize_(root->right, out);
+    }
+
+    // Deserialize the tree using a stringstream
+    TreeNode* deserialize_(istringstream& in) {
+        string token;
+        in >> token;
+
+        if (token == "#") {
+            return nullptr;
+        }
+
+        TreeNode* root = new TreeNode(stoi(token));
+        root->left = deserialize_(in);
+        root->right = deserialize_(in);
+
+        return root;
     }
 };
-// Your Codec object will be instantiated and called as such:
-// Codec ser, deser;
-// TreeNode* ans = deser.deserialize(ser.serialize(root));
