@@ -76,9 +76,9 @@ public:
             return false ;
         int x = compare(((root->val.size()> prefix.size()) ? root->val.substr(0,prefix.size()) : root->val),prefix) ;
         if (x == 1) // root->val < prefix ;
-            return search_(root->right, prefix) ;
+            return startsWith_(root->right, prefix) ;
         else if (x == 0) // root->val > prefix
-            return search_(root->left, prefix) ;
+            return startsWith_(root->left, prefix) ;
         else
             return true ;
     }
