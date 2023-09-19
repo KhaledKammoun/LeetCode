@@ -1,12 +1,3 @@
-namespace std {
-    template <>
-    struct hash<pair<int, int>> {
-        size_t operator()(const pair<int, int>& p) const {
-            // Combine the hashes of the two integers
-            return hash<int>()(p.first) ^ hash<int>()(p.second);
-        }
-    };
-}
 class TrieNode {
 public:
     TrieNode* left;
@@ -14,30 +5,31 @@ public:
     TrieNode* prevLeft;
     TrieNode* prevRight;
     char val ;
-    bool visited;
 
-    TrieNode(char val) : val(val), visited(false) {
+    TrieNode(char val) : val(val) {
         left = right = prevLeft = prevRight = nullptr;
     }
 };
 class Solution {
 public:
     unordered_map<char, vector<TrieNode*>> children;
-    TrieNode* nodes[13][13];
+     TrieNode* nodes[13][13];
     //Create trie nodes using DFS .
     //Search words or inverse words .
     // we'll work on children map
     void create_nodes(vector<vector<char>>& board){
+       
+         int n = board.size(), m = board[0].size() ;
         // Initialize the array to nullptr
-        for (int i = 0; i < 13;i++) {
-            for (int j = 0; j < 13; j++) {
-                nodes[i][j] = nullptr;
+        for (int i = 0; i < n;i++) {
+            for (int j = 0; j < m; j++) {
+                nodes[i][j] = new TrieNode(board[i][j]);
             }
         }
-        int n = board.size(), m = board[0].size() ;
+       
         for (int i = 0 ; i < n ; i++){
             for (int j = 0 ; j < m ; j++){
-                TrieNode* root = new TrieNode(board[i][j]) ;
+                TrieNode* root = nodes[i][j] ;
                 if (j > 0){
                     root->prevLeft = nodes[i][j-1] ;
                     if (nodes[i][j-1])
@@ -58,35 +50,43 @@ public:
                     if (nodes[i][j+1])
                         nodes[i][j+1]->prevLeft = root ;
                 }
-                nodes[i][j] = root ;
+                
                 children[board[i][j]].push_back(root) ;
                 
             }
         }
-        // delete nodes
-        // for (auto it = nodes.begin(); it != nodes.end(); ++it) {
-        //     delete it->second; // Delete the TrieNode object
-        // }
-        // nodes.clear();
     }
-    bool dfs(TrieNode* root, string word, int index){
+    bool dfs(TrieNode* root, string& word, int index) {
         if (index == word.size())
-            return true ;
-        else if (!root->visited && word[index]==root->val){
-            root->visited = true;
-            bool found = dfs(root->left, word, index) || dfs(root->right, word,index) || dfs(root->prevLeft, word, index) || dfs(root->prevRight, word, index);
-            root->visited = false;  // Backtrack: unmark the node
+            return true;
+    
+        if (root && word[index] == root->val) {
+            char original = root->val; // Store the original character
+            root->val = '\0'; // Mark the node as visited
+    
+            bool found = false;
+            if (root->left)
+                found |= dfs(root->left, word, index + 1);
+            if (root->right)
+                found |= dfs(root->right, word, index + 1);
+            if (root->prevLeft)
+                found |= dfs(root->prevLeft, word, index + 1);
+            if (root->prevRight)
+                found |= dfs(root->prevRight, word, index + 1);
+            root->val = original; // Restore the original character
+    
             return found;
         }
-        else 
-            return false ;
+    
+        return false;
     }
+
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         create_nodes(board) ;
         vector<string> v ;
         for (auto word : words){
             for (int i = 0 ; i<children[word[0]].size() ; i++){
-                if (dfs(children[word[0]][i],word,1)){
+                if (dfs(children[word[0]][i],word,0)){
                     v.push_back(word) ;
                     break ;
                 }
