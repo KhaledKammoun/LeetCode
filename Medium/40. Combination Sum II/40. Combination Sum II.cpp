@@ -9,16 +9,18 @@ public:
             return ;
         }
         for (int i = start ; i < candidates_size ; i++){
-            subset.push_back(candidates[i]) ;
-            backtracking(candidates, target, subset, i + 1, sum + candidates[i]) ;
-            subset.pop_back() ;
+            if (target - sum >= candidates[i]){
+                subset.push_back(candidates[i]) ;
+                backtracking(candidates, target, subset, i + 1, sum + candidates[i]) ;
+                subset.pop_back() ;
+            }
             while (i+1 < candidates_size && candidates[i] == candidates[i+1])
                 i++ ;
         }
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         // sort(candidates.begin(), candidates.end()) ;
-        // or using this method
+        // or :
         int t[51] = {0} ;
         for (auto x : candidates)
             t[x]++ ;
