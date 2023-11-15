@@ -8,11 +8,11 @@ public:
     void dfs(string &s,string& sNum, int startS,int startNum){
         if (startS == s.size())
             return ;
-        for (int i = startNum ; i<m[sNum.substr(startS, 1)].size() ; i++){
+        for (int i = 0 ; i<m[sNum.substr(startS, 1)].size() ; i++){
             result.push_back(s) ;
-            s[startS]++ ;
             dfs(s, sNum, startS + 1, startNum + 1) ;
-            s[startS]-- ;
+            s[startS]++ ;
+            
         }
     }
     vector<string> letterCombinations(string digits) {
