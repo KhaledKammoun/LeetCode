@@ -1,32 +1,24 @@
 class Solution {
 public:
-    std::unordered_map<char, pair<int,char>> m {
-        {'2', make_pair(3,'a')}, {'3', make_pair(3,'d')}, {'4', make_pair(3,'g')}, {'5', make_pair(3,'j')},
-        {'6', make_pair(3,'m')}, {'7', make_pair(4,'p')}, {'8', make_pair(3,'t')}, {'9', make_pair(4,'w')}
-    };
+    unordered_map<char, string> m {
+        {'2', "abc"},  {'3', "def"}, {'4', "ghi"}, {'5', "jkl"}, {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+    } ;
     vector<string> result ;
-    void dfs(string s,string sNum, int startS, int &num){
-        if (startS == s.size())
+    void dfs(string &digits, string answer, int i){
+        if (i == digits.size()){
+            result.push_back(answer) ;
             return ;
-        if (result.size()!=0)
-            num = 1 ;
-        for (int i = num ; i<m[sNum[startS]].first ; i++){
-            if (i != 0)
-                s[startS]++ ;
-            result.push_back(s) ;
-            dfs(s, sNum, startS + 1,num) ;
-            s[startS]
+        }
+        for (int j = 0; j<m[digits[i]].size(); j++){
+            answer+=m[digits[i]][j] ;
+            dfs(digits, answer, i+1) ;
+            answer.erase(answer.end() - 1);
         }
     }
     vector<string> letterCombinations(string digits) {
-        if (digits == "")
+        if (digits.size() == 0)
             return result ;
-        string s = "" ;
-        for (int i = 0 ;i<digits.size() ; i++)
-            s+=m[digits[i]].second ;
-        int start = 0 ;
-        
-        dfs(s, digits, 0,start) ;
-        return result ;
+        dfs(digits, "", 0) ;
+        return result; 
     }
 };
