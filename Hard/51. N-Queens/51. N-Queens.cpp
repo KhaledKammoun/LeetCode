@@ -1,14 +1,11 @@
-#include <vector>
-#include <string>
-#include <utility>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 class Solution {
 public:
     vector<vector<string>> result;
 
-    void dfs(int n, int row, vector<string> &board, int board_list[], int diff_list[]) {
+    void dfs(int n, int row, vector<string> &board, bool *board_list, vector<pair<int,int>> &diff_list) {
         if (row == n) {
             result.push_back(board);
             return;
@@ -17,35 +14,33 @@ public:
         for (int i = 0; i < n; i++) {
             if (isValid(n, row, i, board, board_list, diff_list)) {
                 board[row][i] = 'Q';
-                board_list[i] = 1;
-                diff_list[abs(row - i)] = 1;
+                board_list[i] = true;
 
+                diff_list.push_back(make_pair(row, i));
                 dfs(n, row + 1, board, board_list, diff_list);
-
-                // Backtrack
+                diff_list.pop_back();
                 board[row][i] = '.';
-                board_list[i] = -1;
-                diff_list[abs(row - i)] = -1;
+                board_list[i] = false;
             }
         }
     }
 
-    bool isValid(int n, int row, int col, vector<string> &board, int board_list[], int diff_list[]) {
-        if (board_list[col] == -1 && diff_list[abs(row - col)] == -1) {
-            return true;
+    bool isValid(int n, int row, int col, vector<string> &board, bool *board_list, vector<pair<int, int>> &diff_list) {
+        if (board_list[col])
+            return false;
+        for (auto c : diff_list) {
+            int row_diff = abs(c.first - row), col_diff = abs(c.second - col);
+            if (row_diff == col_diff)
+                return false;
         }
-        return false;
+        return true;
     }
 
     vector<vector<string>> solveNQueens(int n) {
         vector<string> board(n, string(n, '.'));
-        int board_list[n];
-        int diff_list[n];
-        fill_n(board_list, n, -1);
-        fill_n(diff_list, n, -1);
-
+        bool board_list[9] = {false};
+        vector<pair<int, int>> diff_list;
         dfs(n, 0, board, board_list, diff_list);
-
         return result;
     }
 };
