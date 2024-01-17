@@ -8,49 +8,44 @@ class Solution {
 public:
     vector<vector<string>> result;
 
-    void dfs(int n, int i, int j, int n_queen, vector<string> &board, vector<pair<int, int>> &board_list) {
-        if (i >= n && j >= n && n_queen == n) {
+    void dfs(int n, int row, vector<string> &board, int board_list[], int diff_list[]) {
+        if (row == n) {
             result.push_back(board);
             return;
-        } else if (i >= n || j >= n) {
-            return;
         }
-        for (int i_new = i; i_new < n; i_new++) {
-            for (int j_new = j; j_new < n; j_new++) {
-                int test = false;
-                for (auto x : board_list) {
-                    int i_diff = abs(i_new - x.first), j_diff = abs(j_new - x.second);
-                    if (i_diff + j_diff == 1 || i_new == x.first || j_new == x.second) {
-                        test = true;
-                        break;
-                    }
-                }
-                if (test) {
-                    board[i_new][j_new] = 'Q';
-                    board_list.push_back(make_pair(i_new, j_new));
-                    
-                    dfs(n, i_new, j_new , n_queen , board, board_list);
-                    i_new -= 1;
-                    j_new -= 2;
-                    n_queen -= 1;
-                    board_list.pop_back();
-                    board_list.push_back(make_pair(i_new, j_new));
-                    
-                    dfs(n, i_new, j_new, n_queen, board, board_list);
-                    i_new -= 2;
-                    j_new -= 1;
-                    n_queen -= 1;
-                    board_list.pop_back();
-                }
+
+        for (int i = 0; i < n; i++) {
+            if (isValid(n, row, i, board, board_list, diff_list)) {
+                board[row][i] = 'Q';
+                board_list[i] = 1;
+                diff_list[abs(row - i)] = 1;
+
+                dfs(n, row + 1, board, board_list, diff_list);
+
+                // Backtrack
+                board[row][i] = '.';
+                board_list[i] = -1;
+                diff_list[abs(row - i)] = -1;
             }
         }
     }
 
+    bool isValid(int n, int row, int col, vector<string> &board, int board_list[], int diff_list[]) {
+        if (board_list[col] == -1 && diff_list[abs(row - col)] == -1) {
+            return true;
+        }
+        return false;
+    }
+
     vector<vector<string>> solveNQueens(int n) {
         vector<string> board(n, string(n, '.'));
-        vector<pair<int, int>> board_list;
-        int i = 0, j = 0, n_queen = 0;
-        dfs(n, i, j, n_queen, board, board_list);
+        int board_list[n];
+        int diff_list[n];
+        fill_n(board_list, n, -1);
+        fill_n(diff_list, n, -1);
+
+        dfs(n, 0, board, board_list, diff_list);
+
         return result;
     }
 };
