@@ -11,9 +11,9 @@
  */
 class Solution {
 public:
-    int result = 0;
-    void dfs(TreeNode* root, unordered_map<int,int>t){
-        if (!root){
+    int dfs(TreeNode* root, unordered_map<int,int>t){
+        if (!root->left && !root->right){
+            t[root->val]++ ;
             int sum =0, length = 0 ;
             for (int i = 0; i<10;i++){
                 if (t[i]%2 !=0)
@@ -21,20 +21,17 @@ public:
                 if (t[i] != 0)
                     length+=t[i] ;
             }
-            if (length!=0 &&( (length%2 == 0 && sum == 0) || (sum == 1 && length%2 !=0))){
-                result++ ;
+            if ((length%2 == 0 && sum == 0) || (sum == 1 && length%2 !=0)){
+                return 1 ;
             }
-            return ;
+            return 0;
         }
         t[root->val]++ ;
-        dfs(root->left, t) ;
-        dfs(root->right, t) ;
-        t[root->val]--;
-        return ;
+        return ((root->left) ? dfs(root->left, t) : 0) + ((root->right) ? dfs(root->right, t) : 0);
     }
     int pseudoPalindromicPaths (TreeNode* root) {
         unordered_map<int, int>t ;
-        dfs(root, t) ;
-        return result; 
+        return dfs(root, t) ;
+        
     }
 };
