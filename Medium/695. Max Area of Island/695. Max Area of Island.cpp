@@ -13,7 +13,7 @@ public:
             vector<pair<int, int>> dir {{0,1}, {-1,0}, {0, -1}, {1,0}};
             for (auto c : dir){
                 int row = c.first + i, col = c.second + j ;
-                if (row >=0 && row <n && col >= 0 && col <= m && !visit[row][col] && grid[row][col] == 1){
+                if (row >=0 && row <n && col >= 0 && col < m && !visit[row][col] && grid[row][col] == 1){
                     q.push(make_pair(row, col)) ;
                     visit[row][col] = true ;
                     total_visit++ ;
