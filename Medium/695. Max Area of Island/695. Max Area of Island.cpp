@@ -1,40 +1,42 @@
 class Solution {
 public:
-    int nb_max = 0;
-    void bfs(vector<vector<int>>& grid,vector<vector<bool>> &visit, int n, int m, int i, int j){
+    int max_area = 0 ;
+    void bfs(vector<vector<int>> &grid, vector<vector<bool>> &visited, int rows, int cols, int i, int j){
+        visited[i][j] = true ;
         queue<pair<int, int>> q ;
         q.push(make_pair(i, j)) ;
-        visit[i][j] = true ;
-        int total_visit = 1;
-        while (!q.empty()){
-            i = q.front().first;
-            j = q.front().second;
+        int area = 1 ;
+        while(!q.empty()){
+
+            int curr_row = q.front().first, curr_col = q.front().second ;
             q.pop() ;
-            vector<pair<int, int>> dir {{0,1}, {-1,0}, {0, -1}, {1,0}};
-            for (auto c : dir){
-                int row = c.first + i, col = c.second + j ;
-                if (row >=0 && row <n && col >= 0 && col < m && !visit[row][col] && grid[row][col] == 1){
-                    q.push(make_pair(row, col)) ;
-                    visit[row][col] = true ;
-                    total_visit++ ;
+            vector<pair<int, int>> diriction {{0,1}, {-1,0}, {0, -1}, {1,0}};
+            for (auto x : diriction){
+                int new_curr_row = curr_row + x.first ;
+                int new_curr_col = curr_col + x.second ;
+                if (new_curr_row >=0 && new_curr_row < rows && new_curr_col >=0 && new_curr_col < cols && !visited[new_curr_row][new_curr_col] && grid[new_curr_row][new_curr_col] == 1){
+                    q.push(make_pair(new_curr_row, new_curr_col)) ;
+                    visited[new_curr_row][new_curr_col] = true ;
+                    area++ ;
                 }
-                
             }
         }
-        nb_max = max(nb_max, total_visit) ;
-    }
+        max_area = max(max_area, area) ;
+        
+        }
+
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        if (!grid.size()) 
+        if (!grid.size())
             return 0 ;
         int rows = grid.size(), cols = grid[0].size() ;
-        vector<vector<bool>> visit(rows, vector<bool>(cols, false));
+        vector<vector<bool>> visited(rows, vector<bool>(cols, false)) ;
         for (int i = 0; i < rows; i++){
-            for (int j = 0; j< cols; j++){
-                if (grid[i][j] == 1 && !visit[i][j]){
-                    bfs(grid, visit, rows, cols, i, j) ;
+            for (int j = 0; j < cols; j++){
+                if (grid[i][j] == 1 && !visited[i][j]){
+                    bfs(grid, visited, rows, cols, i, j) ;
                 }
             }
         }
-        return nb_max ;
+        return max_area ;
     }
 };
