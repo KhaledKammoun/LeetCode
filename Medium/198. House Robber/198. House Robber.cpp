@@ -1,19 +1,12 @@
 class Solution {
 public:
-    int visited[101] = {0} ;
-    int dfs(vector<int> &v, int start) {
-        if (start >= v.size())
-            return 0 ;
-        int max_val = 0 ;
-        for (int i = start; i < v.size(); i++) {
-            if (!visited[i]){
-                visited[i] = v[i] + dfs(v, i + 2) ;
-            }
-            max_val = max(max_val, visited[i]) ;
-        }
-        return max_val ;
+  int rob(vector<int>& nums) {
+    int n = nums.size() ;
+    vector<int> dp(n+1, 0) ;
+    dp[1] = nums[0] ;
+    for(int i= 2; i <= n; i++) {
+        dp[i] = max(dp[i-1], nums[i-1] + dp[i-2]) ;
     }
-    int rob(vector<int>& nums) {
-        return max(dfs(nums, 0), dfs(nums, 1)) ;
-    }
+    return dp[n] ;
+  }
 };
