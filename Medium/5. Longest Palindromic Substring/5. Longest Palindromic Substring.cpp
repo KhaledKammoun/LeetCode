@@ -1,25 +1,28 @@
 class Solution {
 public:
-    bool verifPalindrom(string s) {
-        int i = 0;
-        while (i < s.size() / 2) {
-            if (s[i] == s[s.size() - i - 1])
-                i++;
-            else
-                return false;
+    int expandAroundCenter(const string& s, int left, int right) {
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            left--;
+            right++;
         }
-        return true;
+        return right - left - 1;
     }
 
     string longestPalindrome(string s) {
-        vector<string> v(26, "");
-        string result = "";
-        for (int i = 0; i < s.size(); i++) {
-            v[s[i] - 'a'] = (i > 0) ? v[s[i - 1] - 'a'] + s[i] : string(1, s[i]);
+        int n = s.size();
+        int start = 0, maxLen = 0;
 
-            if (verifPalindrom(v[s[i] - 'a']) && v[s[i] - 'a'].size() > result.size())
-                result = v[s[i] - 'a'];
+        for (int i = 0; i < n; i++) {
+            int len1 = expandAroundCenter(s, i, i); // Odd-length palindrome
+            int len2 = expandAroundCenter(s, i, i + 1); // Even-length palindrome
+            int len = max(len1, len2);
+
+            if (len > maxLen) {
+                maxLen = len;
+                start = i - (len - 1) / 2;
+            }
         }
-        return result;
+
+        return s.substr(start, maxLen);
     }
 };
